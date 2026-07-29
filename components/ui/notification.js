@@ -1,12 +1,17 @@
+import { useContext } from "react";
+
 import classes from "./notification.module.css";
+import NotificationContext from "../../store/notification-context";
 
 // Display a notification message
 function Notification(props) {
+  const notificationCtx = useContext(NotificationContext);
+
   const { title, message, status } = props;
 
   let statusClasses = "";
 
-  // Apply the appropriate style based on the notification status
+  // Apply the style based on the notification status
   if (status === "success") {
     statusClasses = classes.success;
   }
@@ -19,11 +24,11 @@ function Notification(props) {
     statusClasses = classes.pending;
   }
 
-  // Combine the base and status-specific styles
+  // Combine default and status-specific styles
   const activeClasses = `${classes.notification} ${statusClasses}`;
 
   return (
-    <div className={activeClasses}>
+    <div className={activeClasses} onClick={notificationCtx.hideNotification}>
       <h2>{title}</h2>
       <p>{message}</p>
     </div>
